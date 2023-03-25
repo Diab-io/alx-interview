@@ -1,22 +1,20 @@
 #!/usr/bin/python3
-
-from math import factorial
-
 """
-    0-pascal_triangle
+0. Pascal's Triangle
 """
+
 
 def pascal_triangle(n):
+    """Create a function def pascal_triangle(n): that returns a list of lists
+    of integers representing the Pascal’s triangle of n
     """
-        function that computes the pascal triangle 
-    """
-    emplist = []
-    if (n <= 0):
-        return emplist
-    
-    [emplist.append([]) for x in range(0, n)]
-    for i,k in enumerate(emplist):
-        while(len(k) != i+1):
-            k.append(int(factorial(i) / (factorial(i-len(k))*factorial(len(k)))))
-    
-    return emplist
+    res = []
+    if n > 0:
+        for i in range(1, n + 1):
+            level = []
+            Y = 1
+            for j in range(1, i + 1):
+                level.append(Y)
+                Y = Y * (i - j) // j
+            res.append(level)
+    return res
