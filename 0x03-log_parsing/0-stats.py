@@ -12,7 +12,7 @@ http_codes = {
 total_size = 0
 
 
-def show_information() -> None:
+def show_information():
     """ This function displays the stats got from the logs """
     print(f"File size: {total_size}")
     for code in sorted(http_codes.keys()):
