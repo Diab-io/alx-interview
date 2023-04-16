@@ -24,19 +24,19 @@ def show_information():
 
 
 if __name__ == "__main__":
-    count = 1
+    count = 0
     try:
         for line in sys.stdin:
             try:
-                info = line.split()
-                total_size += int(info[-1])
-                if info[-2] in http_codes:
-                    http_codes[info[-2]] += 1
+                elems = line.split()
+                total_size += int(elems[-1])
+                if elems[-2] in http_codes:
+                    http_codes[elems[-2]] += 1
             except Exception:
                 pass
-            if count == 10:
+            if count == 9:
                 show_information()
-                count = 0
+                count = -1
             count += 1
     except KeyboardInterrupt:
         show_information()
