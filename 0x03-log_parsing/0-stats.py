@@ -1,41 +1,48 @@
 #!/usr/bin/python3
-""" Module that helps compute stats of a log """
+"""
+module contains a script that reads stdin line by line and computes metrics
+"""
 import sys
 
 
-http_codes = {
-    '200': 0, '301': 0, '400': 0,
-    '401': 0, '403': 0, '404': 0,
-    '405': 0, '500': 0
+status_codes = {
+    "200": 0,
+    "301": 0,
+    "400": 0,
+    "401": 0,
+    "403": 0,
+    "404": 0,
+    "405": 0,
+    "500": 0
 }
 
-total_size = 0
+file_size = 0
 
 
-def show_information() -> None:
-    """ This function displays the stats got from the logs """
-    print(f"File size: {total_size}")
-    for code in http_codes.keys():
-        if http_codes[code]:
-            print(f"{code}: {http_codes[code]}")
+def print_metrics():
+    """prints of the logs"""
+    print("File size: {}".format(file_size))
+    for status in sorted(status_codes.keys()):
+        if status_codes[status]:
+            print("{}: {}".format(status, status_codes[status]))
 
 
-if __name__ == '__main__':
-    count = 1
+if __name__ == "__main__":
+    count = 0
     try:
         for line in sys.stdin:
             try:
-                info = line.split()
-                code, size = info[-2], info[-1]
-                total_size += int(size)
-                if code in http_codes.keys():
-                    http_codes[code] += 1
+                elems = line.split()
+                file_size += int(elems[-1])
+                if elems[-2] in status_codes:
+                    status_codes[elems[-2]] += 1
             except Exception:
                 pass
-            if count == 10:
-                show_information()
-                count = 0
+            if count == 9:
+                print_metrics()
+                count = -1
             count += 1
     except KeyboardInterrupt:
-        show_information()
+        print_metrics()
         raise
+    print_metrics()
