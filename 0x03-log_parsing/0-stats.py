@@ -17,10 +17,10 @@ total_size = 0
 
 def show_information():
     """prints of the logs"""
-    print("File size: {}".format(total_size))
-    for status in sorted(http_codes.keys()):
-        if http_codes[status]:
-            print("{}: {}".format(status, http_codes[status]))
+    print(f"File size: {total_size}")
+    for code in sorted(http_codes.keys()):
+        if http_codes[code]:
+            print(f"{code}: {http_codes[code]}")
 
 
 if __name__ == "__main__":
