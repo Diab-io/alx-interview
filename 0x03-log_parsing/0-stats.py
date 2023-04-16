@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-module contains a script that reads stdin line by line and computes metrics
+Tis script computes metric based on logs passed
+into the stdin
 """
 import sys
 
@@ -16,27 +17,28 @@ total_size = 0
 
 
 def show_information():
-    """prints of the logs"""
-    print(f"File size: {total_size}")
+    """This prints the computed info got from the logs"""
+    print("File size: {}".format(total_size))
     for code in sorted(http_codes.keys()):
         if http_codes[code]:
-            print(f"{code}: {http_codes[code]}")
+            print("{}: {}".format(code, http_codes[code]))
 
 
 if __name__ == "__main__":
-    count = 0
+    count = 1
     try:
         for line in sys.stdin:
             try:
-                elems = line.split()
-                total_size += int(elems[-1])
-                if elems[-2] in http_codes:
-                    http_codes[elems[-2]] += 1
+                info = line.split()
+                size, code = info[-1], info[-2]
+                total_size += int(size)
+                if code in http_codes:
+                    http_codes[code] += 1
             except Exception:
                 pass
-            if count == 9:
+            if count == 10:
                 show_information()
-                count = -1
+                count = 0
             count += 1
     except KeyboardInterrupt:
         show_information()
