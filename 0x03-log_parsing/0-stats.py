@@ -6,14 +6,10 @@ import sys
 
 
 http_codes = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
+    "200": 0, "301": 0,
+    "400": 0, "401": 0,
+    "403": 0, "404": 0,
+    "405": 0, "500": 0
 }
 
 total_size = 0
@@ -33,10 +29,9 @@ if __name__ == "__main__":
         for line in sys.stdin:
             try:
                 info = line.split()
-                size, code = info[-1], info[-2]
-                total_size += int(size)
-                if code in http_codes:
-                    http_codes[code] += 1
+                total_size += int(info[-1])
+                if info[-2] in http_codes:
+                    http_codes[info[-2]] += 1
             except Exception:
                 pass
             if count == 10:
