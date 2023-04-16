@@ -5,7 +5,7 @@ module contains a script that reads stdin line by line and computes metrics
 import sys
 
 
-status_codes = {
+http_codes = {
     "200": 0,
     "301": 0,
     "400": 0,
@@ -16,33 +16,34 @@ status_codes = {
     "500": 0
 }
 
-file_size = 0
+total_size = 0
 
 
-def print_metrics():
+def show_information():
     """prints of the logs"""
-    print("File size: {}".format(file_size))
-    for status in sorted(status_codes.keys()):
-        if status_codes[status]:
-            print("{}: {}".format(status, status_codes[status]))
+    print("File size: {}".format(total_size))
+    for code in sorted(http_codes.keys()):
+        if http_codes[code]:
+            print(f"{code}: {http_codes[code]}")
 
 
 if __name__ == "__main__":
-    count = 0
+    count = 1
     try:
         for line in sys.stdin:
             try:
-                elems = line.split()
-                file_size += int(elems[-1])
-                if elems[-2] in status_codes:
-                    status_codes[elems[-2]] += 1
+                info = line.split()
+                size, code = info[-1], info[-2]
+                total_size += int(size)
+                if code in http_codes:
+                    http_codes[code] += 1
             except Exception:
                 pass
-            if count == 9:
-                print_metrics()
-                count = -1
+            if count == 10:
+                show_information()
+                count = 0
             count += 1
     except KeyboardInterrupt:
-        print_metrics()
+        show_information()
         raise
-    print_metrics()
+    show_information()
